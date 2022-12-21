@@ -4,11 +4,28 @@
 
 body{
     margin: 0;
-    background: black;
+    background: linear-gradient(to right, blue, red);
 }
 
 .calculatorGrid{
     display:grid;
-    margin-top: 20px;
-    grid-template-columns: repeat(4,6rem);
+    margin-top: 2vw;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: repeat(4, 15vh);
+    grid-template-rows: minmax(15vh, auto) repeat(5, 15vh);
+}
+
+.spanTwo{
+    grid-column: span 2;
+}
+
+.topDisplay{
+    grid-column: 1/-1;
+    height:15vh;
+    background-color: rgba(0,0,0, 0.6);
+}
+
+button{
+    height: 15vh;
 }
