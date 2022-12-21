@@ -24,8 +24,34 @@ body{
     grid-column: 1/-1;
     height:15vh;
     background-color: rgba(0,0,0, 0.6);
+    display:flex;
+    flex-direction:column;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding: 0.5rem;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.previousOperation{
+    color: rgb(176, 174, 174);
+    font-size: 2rem;
+}
+
+.currentOperation{
+    color: white;
+    font-size: 3rem;
 }
 
 button{
     height: 15vh;
+    cursor: pointer;
+    font-size: 2rem;
+    outline: none;
+    border: 1px solid white;
+    background-color: rgba(255, 255, 255, 0.936);
+}
+
+button:hover{
+    background-color: white;
 }
