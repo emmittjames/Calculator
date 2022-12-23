@@ -33,12 +33,12 @@ body{
     word-break: break-all;
 }
 
-.previousOperation{
+.previousOperand{
     color: rgb(176, 174, 174);
     font-size: 2rem;
 }
 
-.currentOperation{
+.currentOperand{
     color: white;
     font-size: 3rem;
 }
