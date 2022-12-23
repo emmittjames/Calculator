@@ -11,30 +11,65 @@ export const ACTIONS = {
   EQUALS: "equals"
 }
 
+function evaluate({ currentOperand, previousOperand, operator }){
+  const prev = parseFloat(previousOperand)
+  const curr = parseFloat(currentOperand)
+  if(!prev || !curr){
+    return ""
+  }
+  let computation = "";
+  if(operator === "+"){
+    computation = prev+curr
+  }
+  else if(operator ==="-"){
+    computation = prev-curr
+  }
+  else if(operator ==="x"){
+    computation = prev*curr
+  }
+  else if(operator ==="÷"){
+    computation = prev/curr
+  }
+  return computation
+}
+
 function reducer(state, { type, payload }){
   switch(type){
     case ACTIONS.ADD_DIGIT:
-      if(payload.digit === "0" && state.currentOperand === "0")
+      if(payload.digit === "0" && state.currentOperand === "0"){
         return state
-      if(payload.digit !== "0" && state.currentOperand ==="0")
+      }
+      if(payload.digit !== "0" && state.currentOperand ==="0"){
         return{ 
-          state, currentOperand: `${payload.digit}`
+          ...state, 
+          currentOperand: `${payload.digit}`
         }
-      if(payload.digit === "." && state.currentOperand.includes("."))
+      }
+      if(payload.digit === "." && state.currentOperand.includes(".")){
         return state
+      }
       return{
-        state, currentOperand: `${state.currentOperand || ""}${payload.digit}`
+        ...state, 
+        currentOperand: `${state.currentOperand || ""}${payload.digit}`
       }
     case ACTIONS.OPERATION:
-      if(!state.currentOperand && !state.previousOperand)
+      if(!state.currentOperand && !state.previousOperand){
         return state
-      if(!state.previousOperand)
+      }
+      if(!state.previousOperand){
         return{
-          state, 
-          operator: payload.operator,
+          ...state, 
+          operator: payload.operation,
           previousOperand: state.currentOperand,
           currentOperand: null
         }
+      }
+      return{
+        ...state,
+        previousOperand: evaluate(state),
+        currentOperand: null,
+        operator: payload.operation
+      }
     case ACTIONS.CLEAR:
       return {}
   }
@@ -46,7 +81,7 @@ function App() {
   return (
     <div className = "calculatorGrid">
       <div className = "topDisplay">
-        <div className = "previousOperand">{previousOperand} {operator}</div>
+        <div className = "previousOperand">{previousOperand}{operator}</div>
         <div className = "currentOperand">{currentOperand}</div>
       </div>
       <button className = "spanTwo" onClick = {() => dispatch({ type: ACTIONS.CLEAR})}>AC</button>
