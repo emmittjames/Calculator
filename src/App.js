@@ -11,28 +11,6 @@ export const ACTIONS = {
   EQUALS: "equals"
 }
 
-function evaluate({ currentOperand, previousOperand, operator }){
-  const prev = parseFloat(previousOperand)
-  const curr = parseFloat(currentOperand)
-  if(!prev || !curr){
-    return ""
-  }
-  let computation = "";
-  if(operator === "+"){
-    computation = prev+curr
-  }
-  else if(operator ==="-"){
-    computation = prev-curr
-  }
-  else if(operator ==="x"){
-    computation = prev*curr
-  }
-  else if(operator ==="÷"){
-    computation = prev/curr
-  }
-  return computation
-}
-
 function reducer(state, { type, payload }){
   switch(type){
     case ACTIONS.ADD_DIGIT:
@@ -53,15 +31,21 @@ function reducer(state, { type, payload }){
         currentOperand: `${state.currentOperand || ""}${payload.digit}`
       }
     case ACTIONS.OPERATION:
-      if(!state.currentOperand && !state.previousOperand){
+      if(state.currentOperand==null && state.previousOperand==null){
         return state
       }
-      if(!state.previousOperand){
+      if(state.previousOperand==null){
         return{
           ...state, 
           operator: payload.operation,
           previousOperand: state.currentOperand,
           currentOperand: null
+        }
+      }
+      if(state.currentOperand==null){
+        return{
+          ...state,
+          operator: payload.operation
         }
       }
       return{
@@ -75,13 +59,35 @@ function reducer(state, { type, payload }){
   }
 }
 
+function evaluate({ currentOperand, previousOperand, operator }){
+  const prev = parseFloat(previousOperand)
+  const curr = parseFloat(currentOperand)
+  if(isNaN(prev) || isNaN(curr)){
+    return ""
+  }
+  let computation = "";
+  if(operator === "+"){
+    computation = prev+curr
+  }
+  else if(operator ==="-"){
+    computation = prev-curr
+  }
+  else if(operator ==="x"){
+    computation = prev*curr
+  }
+  else if(operator ==="÷"){
+    computation = prev/curr
+  }
+  return computation
+}
+
 function App() {
   const[{ currentOperand, previousOperand, operator },dispatch] = useReducer(reducer, {})
 
   return (
     <div className = "calculatorGrid">
       <div className = "topDisplay">
-        <div className = "previousOperand">{previousOperand}{operator}</div>
+        <div className = "previousOperand">{previousOperand} {operator}</div>
         <div className = "currentOperand">{currentOperand}</div>
       </div>
       <button className = "spanTwo" onClick = {() => dispatch({ type: ACTIONS.CLEAR})}>AC</button>
