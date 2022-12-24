@@ -120,14 +120,27 @@ function evaluate({ currentOperand, previousOperand, operation }){
   return computation
 }
 
+const integerFormatter = new Intl.NumberFormat("en-us", {maximumFractionDigits: 0})
+
+function formatOperand(operand){
+  if(operand==null){
+    return null
+  }
+  const [integer, decimal] = operand.split(".")
+  if(decimal==null){
+    return integerFormatter.format(integer)
+  }
+  return `${integerFormatter.format(integer)}.${decimal}`
+}
+
 function App() {
   const[{ currentOperand, previousOperand, operation },dispatch] = useReducer(reducer, {})
 
   return (
     <div className = "calculatorGrid">
       <div className = "topDisplay">
-        <div className = "previousOperand">{previousOperand} {operation}</div>
-        <div className = "currentOperand">{currentOperand}</div>
+        <div className = "previousOperand">{formatOperand(previousOperand)} {operation}</div>
+        <div className = "currentOperand">{formatOperand(currentOperand)}</div>
       </div>
       <button className = "spanTwo" onClick = {() => dispatch({ type: ACTIONS.CLEAR })}>AC</button>
       <button onClick = {() => dispatch({ type: ACTIONS.DELETE_DIGIT })}>DEL</button>
