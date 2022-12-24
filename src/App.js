@@ -37,7 +37,7 @@ function reducer(state, { type, payload }){
       if(state.previousOperand==null){
         return{
           ...state, 
-          operator: payload.operation,
+          operation: payload.operation,
           previousOperand: state.currentOperand,
           currentOperand: null
         }
@@ -45,52 +45,62 @@ function reducer(state, { type, payload }){
       if(state.currentOperand==null){
         return{
           ...state,
-          operator: payload.operation
+          operation: payload.operation
         }
       }
       return{
         ...state,
         previousOperand: evaluate(state),
         currentOperand: null,
-        operator: payload.operation
+        operation: payload.operation
       }
     case ACTIONS.CLEAR:
       return {}
+    case ACTIONS.EQUALS:
+      if(state.currentOperand == null || state.previousOperand == null || state.operation == null){
+        return state
+      }
+      return{
+        ...state,
+        previousOperand: null,
+        operation: null,
+        currentOperand: evaluate(state)
+      }
   }
 }
 
-function evaluate({ currentOperand, previousOperand, operator }){
+function evaluate({ currentOperand, previousOperand, operation }){
   const prev = parseFloat(previousOperand)
   const curr = parseFloat(currentOperand)
   if(isNaN(prev) || isNaN(curr)){
     return ""
   }
   let computation = "";
-  if(operator === "+"){
+  if(operation === "+"){
     computation = prev+curr
   }
-  else if(operator ==="-"){
+  else if(operation ==="-"){
     computation = prev-curr
   }
-  else if(operator ==="x"){
+  else if(operation ==="x"){
     computation = prev*curr
   }
-  else if(operator ==="÷"){
+  else if(operation ==="÷"){
     computation = prev/curr
   }
   return computation
 }
 
 function App() {
-  const[{ currentOperand, previousOperand, operator },dispatch] = useReducer(reducer, {})
+  const[{ currentOperand, previousOperand, operation },dispatch] = useReducer(reducer, {})
 
   return (
     <div className = "calculatorGrid">
       <div className = "topDisplay">
-        <div className = "previousOperand">{previousOperand} {operator}</div>
+        <div className = "previousOperand">{previousOperand} {operation}</div>
         <div className = "currentOperand">{currentOperand}</div>
       </div>
-      <button className = "spanTwo" onClick = {() => dispatch({ type: ACTIONS.CLEAR})}>AC</button>
+      <button className = "spanTwo" onClick = {() => dispatch({ type: ACTIONS.CLEAR })}>AC</button>
       <button>DEL</button>
       <OperationButton operation="-" dispatch={dispatch} />
       <DigitButton digit="7" dispatch={dispatch} />
@@ -107,7 +117,7 @@ function App() {
       <OperationButton operation="+" dispatch={dispatch} />
       <DigitButton digit="." dispatch={dispatch} />
       <DigitButton digit="0" dispatch={dispatch} />
-      <button className = "spanTwo">=</button>
+      <button className = "spanTwo" onClick = {() => dispatch({ type: ACTIONS.EQUALS })}>=</button>
     </div>
   )
 }
