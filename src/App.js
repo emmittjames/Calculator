@@ -126,7 +126,8 @@ function formatOperand(operand){
   if(operand==null){
     return null
   }
-  const [integer, decimal] = operand.split(".")
+  const opstr = operand.toString()
+  const [integer, decimal] = opstr.split(".")
   if(decimal==null){
     return integerFormatter.format(integer)
   }
