@@ -135,7 +135,7 @@ function formatOperand(operand){
 }
 
 function App() {
-  const[{ currentOperand, previousOperand, operation },dispatch] = useReducer(reducer, {})
+  const[{ currentOperand, previousOperand, operation }, dispatch] = useReducer(reducer, {})
 
   return (
     <div className = "calculatorGrid">

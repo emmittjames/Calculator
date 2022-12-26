@@ -47,7 +47,7 @@ button{
     height: 15vh;
     cursor: pointer;
     font-size: 2rem;
-    outline: none;
+    /* outline: none; */
     border: 1px solid white;
     background-color: rgba(255, 255, 255, 0.936);
 }
