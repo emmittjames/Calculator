@@ -1,4 +1,9 @@
-# Getting Started with Create React App
+# Four function calculator
+
+## Working link to the calculator
+[https://emmittjames.github.io/Calculator](https://emmittjames.github.io/Calculator/)
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
