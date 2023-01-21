@@ -1,4 +1,4 @@
-# Four function calculator
+# [Four function calculator](https://emmittjames.github.io/Calculator/)
 
 ## Working link to the calculator
 [https://emmittjames.github.io/Calculator](https://emmittjames.github.io/Calculator/)
